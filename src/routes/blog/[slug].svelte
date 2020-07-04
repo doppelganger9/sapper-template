@@ -57,7 +57,7 @@
 	<title>{post.title}</title>
 </svelte:head>
 
-<h1>{post.title}</h1>
+<h1 data-cy="post-heading">{post.title}</h1>
 
 <div class='content'>
 	{@html post.html}

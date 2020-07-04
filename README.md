@@ -80,6 +80,17 @@ import { files } from '@sapper/service-worker';
 
 Sapper uses Rollup or webpack to provide code-splitting and dynamic imports, as well as compiling your Svelte components. With webpack, it also provides hot module reloading. As long as you don't do anything daft, you can edit the configuration files to add whatever plugins you'd like.
 
+## Testing
+
+[Cypress.io](https://www.cypress.io/) is installed, and a sample test is provided. Code-coverage is also generated as a bonus.
+
+`npm test` will launch a dev server and Cypres to test it. It will generate:
+
+- `coverage/` directory, you can check `coverage/lcov-report/index.html` in a browser for a Code Coverage report showing Svelte components and JS code covered.
+- video has been disabled in `cypress.json` configuration file, you can re-enable it, and videos will be in the `cypress/videos` directory.
+- you can disable code-coverage in `cypress.json` by setting the `env.coverage` to `false`. There is a `npm run test:no-coverage` that will run without code coverage (faster)
+
+For more information, look at [Cypress documentation](https://docs.cypress.io/).
 
 ## Production mode and deployment
 

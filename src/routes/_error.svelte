@@ -31,10 +31,10 @@
 	<title>{status}</title>
 </svelte:head>
 
-<h1>{status}</h1>
+<h1 data-cy="error-status">{status}</h1>
 
-<p>{error.message}</p>
+<p data-cy="error-message">{error.message}</p>
 
 {#if dev && error.stack}
-	<pre>{error.stack}</pre>
+	<pre data-cy="error-stack">{error.stack}</pre>
 {/if}

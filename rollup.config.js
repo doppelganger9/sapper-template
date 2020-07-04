@@ -5,6 +5,7 @@ import svelte from 'rollup-plugin-svelte';
 import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import config from 'sapper/config/rollup.js';
+import istanbul from 'rollup-plugin-istanbul';
 import pkg from './package.json';
 
 const mode = process.env.NODE_ENV;
@@ -20,7 +21,7 @@ export default {
 		plugins: [
 			replace({
 				'process.browser': true,
-				'process.env.NODE_ENV': JSON.stringify(mode)
+				'process.env.NODE_ENV': JSON.stringify(mode).replace(/\"/g, '\'')
 			}),
 			svelte({
 				dev,
@@ -52,7 +53,21 @@ export default {
 
 			!dev && terser({
 				module: true
-			})
+			}),
+
+			// only instrument source code in development mode
+			// sapper rollup config will configure the output
+			// with sourcemap: 'inline'
+			dev &&
+			istanbul({
+				// only instrument our files in 'src' folder
+				// which will instrument '.svelte' and '.js' files
+				extensions: ['.js', '.svelte'],
+				include: ['src/**/*'],
+				sourceMap: true,
+				compact: false,
+				debug: true
+			}),
 		],
 
 		preserveEntrySignatures: false,
@@ -65,7 +80,7 @@ export default {
 		plugins: [
 			replace({
 				'process.browser': false,
-				'process.env.NODE_ENV': JSON.stringify(mode)
+				'process.env.NODE_ENV': JSON.stringify(mode).replace(/\"/g, '\'')
 			}),
 			svelte({
 				generate: 'ssr',
